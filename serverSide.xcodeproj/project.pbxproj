@@ -23,7 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A514DB57242CD9050047E1A4 /* rUDP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rUDP; sourceTree = BUILT_PRODUCTS_DIR; };
+		A514DB57242CD9050047E1A4 /* serverSide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = serverSide; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514DB5A242CD9050047E1A4 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A5C2F662242D02E1008E712C /* receive.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = receive.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,7 +50,7 @@
 		A514DB58242CD9050047E1A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A514DB57242CD9050047E1A4 /* rUDP */,
+				A514DB57242CD9050047E1A4 /* serverSide */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,9 +67,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A514DB56242CD9050047E1A4 /* rUDP */ = {
+		A514DB56242CD9050047E1A4 /* serverSide */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A514DB5E242CD9050047E1A4 /* Build configuration list for PBXNativeTarget "rUDP" */;
+			buildConfigurationList = A514DB5E242CD9050047E1A4 /* Build configuration list for PBXNativeTarget "serverSide" */;
 			buildPhases = (
 				A514DB53242CD9050047E1A4 /* Sources */,
 				A514DB54242CD9050047E1A4 /* Frameworks */,
@@ -79,9 +79,9 @@
 			);
 			dependencies = (
 			);
-			name = rUDP;
+			name = serverSide;
 			productName = rUDP;
-			productReference = A514DB57242CD9050047E1A4 /* rUDP */;
+			productReference = A514DB57242CD9050047E1A4 /* serverSide */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A514DB52242CD9050047E1A4 /* Build configuration list for PBXProject "rUDP" */;
+			buildConfigurationList = A514DB52242CD9050047E1A4 /* Build configuration list for PBXProject "serverSide" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -111,7 +111,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A514DB56242CD9050047E1A4 /* rUDP */,
+				A514DB56242CD9050047E1A4 /* serverSide */,
 			);
 		};
 /* End PBXProject section */
@@ -262,7 +262,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A514DB52242CD9050047E1A4 /* Build configuration list for PBXProject "rUDP" */ = {
+		A514DB52242CD9050047E1A4 /* Build configuration list for PBXProject "serverSide" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A514DB5C242CD9050047E1A4 /* Debug */,
@@ -271,7 +271,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A514DB5E242CD9050047E1A4 /* Build configuration list for PBXNativeTarget "rUDP" */ = {
+		A514DB5E242CD9050047E1A4 /* Build configuration list for PBXNativeTarget "serverSide" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A514DB5F242CD9050047E1A4 /* Debug */,

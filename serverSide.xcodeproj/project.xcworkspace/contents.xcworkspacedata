@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:rUDP.xcodeproj">
+      location = "self:/Users/XCodeProjects/Final Project/rUDP/serverSide.xcodeproj">
    </FileRef>
 </Workspace>
