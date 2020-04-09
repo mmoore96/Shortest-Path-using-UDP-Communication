@@ -42,7 +42,7 @@
 		A514DB4E242CD9050047E1A4 = {
 			isa = PBXGroup;
 			children = (
-				A514DB59242CD9050047E1A4 /* rUDP */,
+				A514DB59242CD9050047E1A4 /* serverSide */,
 				A514DB58242CD9050047E1A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,13 +55,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A514DB59242CD9050047E1A4 /* rUDP */ = {
+		A514DB59242CD9050047E1A4 /* serverSide */ = {
 			isa = PBXGroup;
 			children = (
 				A514DB5A242CD9050047E1A4 /* main.cpp */,
 				A5C2F662242D02E1008E712C /* receive.txt */,
 			);
-			path = rUDP;
+			path = serverSide;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
