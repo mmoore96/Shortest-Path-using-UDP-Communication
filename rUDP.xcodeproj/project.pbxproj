@@ -24,7 +24,8 @@
 
 /* Begin PBXFileReference section */
 		A514DB57242CD9050047E1A4 /* rUDP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rUDP; sourceTree = BUILT_PRODUCTS_DIR; };
-		A514DB5A242CD9050047E1A4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		A514DB5A242CD9050047E1A4 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		A5C2F662242D02E1008E712C /* receive.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = receive.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				A514DB5A242CD9050047E1A4 /* main.cpp */,
+				A5C2F662242D02E1008E712C /* receive.txt */,
 			);
 			path = rUDP;
 			sourceTree = "<group>";
@@ -241,6 +243,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A78B7SLGH2;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -251,6 +254,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A78B7SLGH2;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
