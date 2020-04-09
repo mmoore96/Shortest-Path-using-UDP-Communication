@@ -17,10 +17,12 @@
 #include <iostream>
 #include <climits>
 #include <list>
+#include<fstream>
 #define LENGTH 512
 #define PORTNUM 12354
 #define BUFMAX 1024
-#define PLIKSERV    "/Users/XCodeProjects/Final\ Project/rUDP/rUDP/receive.txt"
+#define PLIKSERV    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/receive.txt"
+#define shortestPathFile    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/path.txt"
 void macLinuxEchoLoop(int, struct sockaddr*, socklen_t);
 void macLinuxEchoServer();
 void multi(int);
@@ -61,6 +63,7 @@ void macLinuxEchoLoop(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
 {
     int bytesRead;
     socklen_t len;
+    char inputBuffer[BUFMAX] = {0};
     char msg[BUFMAX] = {0};
     char buf[512],sbuf[LENGTH];
     FILE *fp = fopen(PLIKSERV, "w");
@@ -78,12 +81,16 @@ void macLinuxEchoLoop(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
         int i;
         sscanf(msg, "%d", &i);
         fflush(fp);
-        printf("Got message: %s\n", msg);
+        //("Got message: %s\n", msg);
         multi(i);
+        FILE *fl = fopen(shortestPathFile, "r");
+        int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
+        
         //sprintf( msg, "%d", string(multi(i)) );
-        printf("Sending: %s", msg);
-        sendto(sockFd, msg, bytesRead, 0, cliaddr, len);
+        //printf("Sending: %s", msg);
+        sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
         fclose(fp);
+        fclose(fl);
         //free(mfcc);
     }
     
@@ -128,6 +135,7 @@ void Graph::BFS(int s)
 {
     // Mark all the vertices as not visited
     bool *visited = new bool[V];
+    char buffer[BUFMAX] = {0};
     for(int i = 0; i < V; i++)
         visited[i] = false;
 
@@ -141,12 +149,17 @@ void Graph::BFS(int s)
     // 'i' will be used to get all adjacent
     // vertices of a vertex
     std::list<int>::iterator i;
-
+    std::ofstream ofile;
+    ofile.open("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/path.txt", std::ios::trunc);
     while(!queue.empty())
     {
         // Dequeue a vertex from queue and print it
         s = queue.front();
-        std::cout << s << "hello ";
+        std::list<int> toSend;
+        std::cout << s << " ";
+        //FILE *fp = fopen(shortestPathFile, "w");
+        //fwrite(s, 1, buffer, fp);
+        ofile << s << std::endl;
         
         queue.pop_front();
 
@@ -162,6 +175,7 @@ void Graph::BFS(int s)
             }
         }
     }
+    ofile.close();
 }
 
 void driver(int start)
@@ -178,5 +192,4 @@ void driver(int start)
     std::cout << "Following is Breadth First Traversal "
          << "(starting from vertex) \n";
     g.BFS(start);
-    return g.BFS(start);
 }

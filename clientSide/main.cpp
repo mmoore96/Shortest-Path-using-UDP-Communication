@@ -17,7 +17,7 @@
 #include <errno.h>
 #define PORTNUM 12354
 #define BUFMAX 1024
-#define PLIK    "/Users/XCodeProjects/Final\ Project/clientSide/clientSide/send.txt"
+#define PLIK    "/Users/XCodeProjects/Final\ Project/serverSide/clientSide/send.txt"
 #define LENGTH 512
 void error(const char*);
 void macLinuxEchoLoop(int, struct sockaddr*, socklen_t);
@@ -86,7 +86,7 @@ void macLinuxEchoLoop(int sock, struct sockaddr* serverAddr, socklen_t serverlen
             error("recvfrom() failed");
 
         recvBuffer[bytesRead] = 0; /* NULL terminates the char array */
-        printf("Server responds: %s\n", recvBuffer);
+        printf("Following is Breadth First Traversal (starting from vertex):\n%s\n", recvBuffer);
         fclose(fp);
         exit(0);
 

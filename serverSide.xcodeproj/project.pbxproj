@@ -23,6 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A50A9090243FA56400C2EC91 /* path.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = path.txt; sourceTree = "<group>"; };
 		A514DB57242CD9050047E1A4 /* serverSide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = serverSide; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514DB5A242CD9050047E1A4 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A5C2F662242D02E1008E712C /* receive.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = receive.txt; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 			children = (
 				A514DB5A242CD9050047E1A4 /* main.cpp */,
 				A5C2F662242D02E1008E712C /* receive.txt */,
+				A50A9090243FA56400C2EC91 /* path.txt */,
 			);
 			path = serverSide;
 			sourceTree = "<group>";
