@@ -1,0 +1,10 @@
+Home,School,GroceryStore
+GroceryStore,Home,HardwareStore
+School,Home,HardwareStore,Mall,StripMall
+HardwareStore,GroceryStore,School,Mall,GasStation
+GasStation,HardwareStore
+Mall,HardwareStore,School,StripMall,Bank
+StripMall,School,Mall,Bank,Park
+Park,StripMall
+Bank,StripMall,Mall,BookStore
+BookStore,Bank

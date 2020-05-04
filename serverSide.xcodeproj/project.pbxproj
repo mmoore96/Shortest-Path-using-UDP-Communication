@@ -23,10 +23,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A50A9090243FA56400C2EC91 /* path.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = path.txt; sourceTree = "<group>"; };
 		A514DB57242CD9050047E1A4 /* serverSide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = serverSide; sourceTree = BUILT_PRODUCTS_DIR; };
 		A514DB5A242CD9050047E1A4 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A5C2F662242D02E1008E712C /* receive.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = receive.txt; sourceTree = "<group>"; };
+		A5334F3E2460AB5200520E8D /* graph.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = graph.txt; sourceTree = "<group>"; };
+		A5334F3F2460AC9900520E8D /* toServer.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = toServer.txt; sourceTree = "<group>"; };
+		A5334F402460AD3800520E8D /* toClient.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = toClient.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +61,9 @@
 			isa = PBXGroup;
 			children = (
 				A514DB5A242CD9050047E1A4 /* main.cpp */,
-				A5C2F662242D02E1008E712C /* receive.txt */,
-				A50A9090243FA56400C2EC91 /* path.txt */,
+				A5334F3E2460AB5200520E8D /* graph.txt */,
+				A5334F3F2460AC9900520E8D /* toServer.txt */,
+				A5334F402460AD3800520E8D /* toClient.txt */,
 			);
 			path = serverSide;
 			sourceTree = "<group>";

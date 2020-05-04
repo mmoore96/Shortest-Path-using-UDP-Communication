@@ -1,0 +1,6 @@
+** Shortest Path **
+Time: 0 hours, 57 minutes
+Path: School->Mall->HardwareStore->GroceryStore
+
+** All Distances From School **
+(Bank:48), (Park:16), (StripMall:5), (Home:36), (Mall:19), (GasStation:106), (HardwareStore:46), (School:0), (BookStore:102), (GroceryStore:57)

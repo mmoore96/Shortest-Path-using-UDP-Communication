@@ -17,28 +17,26 @@
 #include <iostream>
 #include <climits>
 #include <list>
-#include<fstream>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <ctime>
+#include <limits>
+#include <fstream>
+#include <sstream>
 #define LENGTH 512
 #define PORTNUM 12354
 #define BUFMAX 1024
-#define PLIKSERV    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/receive.txt"
-#define shortestPathFile    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/path.txt"
+#define PLIKSERV    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toServer.txt"
+#define shortestPathFile    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toClient.txt"
+
 void macLinuxEchoLoop(int, struct sockaddr*, socklen_t);
 void macLinuxEchoServer();
 void multi(int);
 void driver(int);
-//using namespace std;
-
-int main(int argc, char** argv)
-{
-    macLinuxEchoServer();
 
 
-    puts("Press any key to continue");
-    getc(stdin);
-
-    return EXIT_SUCCESS;
-}
 
 void macLinuxEchoServer()
 {
@@ -81,8 +79,8 @@ void macLinuxEchoLoop(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
         int i;
         sscanf(msg, "%d", &i);
         fflush(fp);
-        //("Got message: %s\n", msg);
-        multi(i);
+        printf("Got message: %s\n", msg);
+        //multi(i);
         FILE *fl = fopen(shortestPathFile, "r");
         int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
         
@@ -91,105 +89,298 @@ void macLinuxEchoLoop(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
         sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
         fclose(fp);
         fclose(fl);
+        return;
         //free(mfcc);
     }
     
 }
 
-void multi(int a){
-    
-    return driver(a);
-    
-}
-
-
-class Graph
+void sendPath(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
 {
-    int V;    // No. of vertices
-
-    // Pointer to an array containing adjacency
-    // lists
-    std::list<int> *adj;
+    int bytesRead;
+    socklen_t len;
+    char inputBuffer[BUFMAX] = {0};
+    char msg[BUFMAX] = {0};
+    char buf[512],sbuf[LENGTH];
+    FILE *fp = fopen(PLIKSERV, "w");
+    char* mfcc;
+    int multiVar = 0;
+    len = clilen;
+    FILE *fl = fopen("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toClient.txt", "r");
+    int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
+    
+    //sprintf( msg, "%d", string(multi(i)) );
+    //printf("Sending: %s", msg);
+    sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
+    fclose(fl);
+    sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
+}
+using namespace std;
+class Node;
+class Edge {
 public:
-    Graph(int V);  // Constructor
+    Edge(Node* endNode, int weight) : endNode(endNode), weight(weight) {};
+    Node* getEndNode() const { return endNode; }
+    int getWeight() const { return weight; }
 
-    // function to add an edge to graph
-    void addEdge(int v, int w);
-
-    // prints BFS traversal from a given source s
-    void BFS(int s);
+private:
+    Node* endNode;
+    int weight;
 };
 
-Graph::Graph(int V)
-{
-    this->V = V;
-    adj = new std::list<int>[V];
+
+
+
+class Node {
+public:
+    Node(string locationName) : locationName(locationName) {};
+    void setLocationName(string locationName) { this->locationName = locationName; }
+    string getLocationName() const { return locationName; }
+        void setDistance(int distance) {this->distance = distance;}
+        int getDistance() const {return distance;}
+        void setPreviousNode(Node* previousNode) {this->previousNode = previousNode;}
+        Node* getPreviousNode() const {return previousNode;}
+        void setVisited(bool visited) {this->visited = visited;}
+        bool isVisited() const {return visited;}
+    void addEdge(Node* endNode, int weight);
+    unordered_map<string, Edge*> getEdges() const;
+        string toString() const;
+
+private:
+    string locationName;
+    unordered_map<string, Edge*> edges;
+        int distance;
+        Node* previousNode;
+        bool visited;
+};
+
+void Node::addEdge(Node* endNode, int weight) {
+    edges.emplace(endNode->getLocationName(), new Edge(endNode, weight));
 }
 
-void Graph::addEdge(int v, int w)
-{
-    adj[v].push_back(w); // Add w to v’s list.
+unordered_map<string, Edge*> Node::getEdges() const {
+    return edges;
 }
 
-void Graph::BFS(int s)
-{
-    // Mark all the vertices as not visited
-    bool *visited = new bool[V];
-    char buffer[BUFMAX] = {0};
-    for(int i = 0; i < V; i++)
-        visited[i] = false;
+string Node::toString() const {
+    string edgeString = locationName + " ->";
+    for (const auto& currEdge : edges) {
+        edgeString += " (" + currEdge.first + ":" + to_string(currEdge.second->getWeight()) + "),";
+    }
+    edgeString.erase(edgeString.length() - 1);
+    return edgeString;
+}
 
-    // Create a queue for BFS
-    std::list<int> queue;
 
-    // Mark the current node as visited and enqueue it
-    visited[s] = true;
-    queue.push_back(s);
 
-    // 'i' will be used to get all adjacent
-    // vertices of a vertex
-    std::list<int>::iterator i;
-    std::ofstream ofile;
-    ofile.open("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/path.txt", std::ios::trunc);
-    while(!queue.empty())
-    {
-        // Dequeue a vertex from queue and print it
-        s = queue.front();
-        std::list<int> toSend;
-        std::cout << s << " ";
-        //FILE *fp = fopen(shortestPathFile, "w");
-        //fwrite(s, 1, buffer, fp);
-        ofile << s << std::endl;
-        
-        queue.pop_front();
+class Graph {
+public:
+    Graph() {};
+    void addEdge(string vertex1, string vertex2, int weight);
+    string toString() const;
+        string dijkstraShortestPath(string startV, string endV);
 
-        // Get all adjacent vertices of the dequeued
-        // vertex s. If a adjacent has not been visited,
-        // then mark it visited and enqueue it
-        for (i = adj[s].begin(); i != adj[s].end(); ++i)
-        {
-            if (!visited[*i])
-            {
-                visited[*i] = true;
-                queue.push_back(*i);
+private:
+    unordered_map<string, Node*> nodes;
+    Node* getNode(string node);
+        string getPath(string startV, string endV) const;
+        string getAllDistances(string startV) const;
+};
+
+void Graph::addEdge(string vertex1, string vertex2, int weight) {
+    Node* v1 = getNode(vertex1);
+    Node* v2 = getNode(vertex2);
+
+    v1->addEdge(v2, weight);
+    v2->addEdge(v1, weight);
+}
+
+Node* Graph::getNode(string node) {
+    if (nodes.count(node) == 0) {
+        nodes.emplace(node, new Node(node));
+    }
+    return nodes.at(node);
+}
+
+string Graph::toString() const {
+    string graph = "";
+    for (const auto& currNode : nodes) {
+        graph += currNode.second->toString() + "\n";
+    }
+    graph.erase(graph.length() - 1);
+    return "** Node -> (Edge:Weight) **\n" + graph;
+}
+
+string Graph::dijkstraShortestPath(string startV, string endV) {
+    if ((nodes.count(startV) == 0) || (nodes.count(endV) == 0)) {
+        return "Starting and/or ending location not in graph.";
+    }
+    
+    unordered_map<string, Node*> unvisitedNodes;
+    int edgeWeight, newPathDistance;
+    Node* currNode;
+    Node* adjacentNode;
+    
+    for (const auto& current : nodes) {
+        current.second->setDistance(numeric_limits<int>::max());
+        current.second->setPreviousNode(nullptr);
+        current.second->setVisited(false);
+        unvisitedNodes.emplace(current.first, current.second);
+    }
+    
+    currNode = unvisitedNodes.at(startV);
+    currNode->setDistance(0);
+    
+    while (!unvisitedNodes.empty()) {
+        for (const auto& current : unvisitedNodes) {
+            if (currNode == nullptr) {
+                currNode = current.second;
+            }
+            else if (current.second->getDistance() < currNode->getDistance()) {
+                currNode = current.second;
             }
         }
+        currNode->setVisited(true);
+        for (const auto& currEdge : currNode->getEdges()) {
+            adjacentNode = currEdge.second->getEndNode();
+            if (!adjacentNode->isVisited()) {
+                edgeWeight = currEdge.second->getWeight();
+                newPathDistance = currNode->getDistance() + edgeWeight;
+
+                if (newPathDistance < adjacentNode->getDistance()) {
+                    adjacentNode->setDistance(newPathDistance);
+                    adjacentNode->setPreviousNode(currNode);
+                }
+            }
+        }
+        unvisitedNodes.erase(currNode->getLocationName());
+        currNode = nullptr;
     }
-    ofile.close();
+    
+    return getPath(startV, endV) + "\n\n" + getAllDistances(startV);
 }
 
-void driver(int start)
+string Graph::getPath(string startV, string endV) const {
+    string path = "";
+    Node* currNode = nodes.at(endV);
+    int endDistance = currNode->getDistance();
+    
+    if (currNode->getPreviousNode() == nullptr) {
+        return "No path from " + startV + " to " + endV + ".";
+    }
+    
+    while (currNode->getPreviousNode() != nullptr) {
+        path = "->" + currNode->getLocationName() + path;
+        currNode = currNode->getPreviousNode();
+    }
+    
+    return "** Shortest Path **\nTime: " + to_string(endDistance / 60) +
+            ((endDistance / 60 == 1) ? " hour, " : " hours, ") +
+            to_string(endDistance % 60) + " minutes\nPath: " +
+            currNode->getLocationName() + path;
+}
+
+string Graph::getAllDistances(string startV) const {
+    string distances = "";
+    for (const auto& currNode : nodes) {
+        distances += ", (" + currNode.first + ":" + to_string(currNode.second->getDistance()) + ")";
+    }
+    distances.erase(0,2);
+    
+    return "** All Distances From " + startV + " **\n" + distances;
+}
+
+Graph* createGraph(ifstream& inFileStream, ofstream& outFileStream) {
+    istringstream inStringStream;
+    Graph* g = new Graph;
+    string currLine, currNode, currEdge;
+    
+    inFileStream.open("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/graph.txt");
+    
+    if (!inFileStream.is_open()) {
+        cout << "Could not open file graph.txt." << endl;
+        exit(1);
+    }
+    
+    getline(inFileStream, currLine);
+    while (!inFileStream.fail()) {
+        inStringStream.str(currLine);
+        getline(inStringStream, currNode, ',');
+        
+        while (getline(inStringStream, currEdge, ',')) {
+            g->addEdge(currNode, currEdge, (rand() % 60) + 1);
+        }
+        inStringStream.clear();
+        getline(inFileStream, currLine);
+    }
+    
+    if (!inFileStream.eof()) {
+        cout << "Error occurred while reading file graph.txt." << endl;
+        inFileStream.close();
+        exit(1);
+    }
+    
+    inFileStream.close();
+    
+    outFileStream.open("toClient.txt");
+    
+    if (!outFileStream.is_open()) {
+        cout << "Could not open file toClient.txt." << endl;
+        exit(1);
+    }
+    
+    outFileStream << g->toString();
+    outFileStream.close();
+    
+    return g;
+}
+
+
+
+
+void driver(ofstream& outFileStream, Graph* g, string startingLocation, string endingLocation) {
+    outFileStream.open("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toClient.txt");
+    
+    if (!outFileStream.is_open()) {
+        cout << "Could not open file toClient.txt." << endl;
+        exit(1);
+    }
+    
+    outFileStream << g->dijkstraShortestPath(startingLocation, endingLocation);
+    outFileStream.close();
+}
+
+int main(int argc, char** argv)
 {
-    // Create a graph given in the above diagram
-    Graph g(4);
-    g.addEdge(0, 1);
-    g.addEdge(0, 2);
-    g.addEdge(1, 2);
-    g.addEdge(2, 0);
-    g.addEdge(2, 3);
-    g.addEdge(3, 3);
-
-    std::cout << "Following is Breadth First Traversal "
-         << "(starting from vertex) \n";
-    g.BFS(start);
-}
+    macLinuxEchoServer();
+    ifstream inFileStream;
+    ofstream outFileStream;
+    string startingLocation, endingLocation;
+    srand(time(0));
+    
+        Graph* g = createGraph(inFileStream, outFileStream);
+        
+        inFileStream.open("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toServer.txt");
+        
+        if (!inFileStream.is_open()) {
+            cout << "Could not open file toServer.txt." << endl;
+            exit(1);
+        }
+        
+        getline(inFileStream, startingLocation);
+        getline(inFileStream, endingLocation);
+        cout<<startingLocation<<endl;
+        
+//        if (!inFileStream.eof()) {
+//            cout << "Error occurred while reading file toServer.txt." << endl;
+//            inFileStream.close();
+//            exit(1);
+//        }
+        
+        inFileStream.close();
+        
+        driver(outFileStream, g, startingLocation, endingLocation);
+        
+        return 0;
+    }
+   

@@ -49,9 +49,9 @@ void macLinuxEchoClient()
 
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(PORTNUM);
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.104");
 
-    inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
+    inet_pton(AF_INET, "192.168.1.104", &serverAddr.sin_addr);
 
     socketFileDescriptor = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -75,7 +75,8 @@ void macLinuxEchoLoop(int sock, struct sockaddr* serverAddr, socklen_t serverlen
         //printf("Type message: ");
         //fgets(inputBuffer, BUFMAX, stdin);
         FILE *fp = fopen(PLIK, "r");
-        int Read = fread(inputBuffer, sizeof(char), LENGTH, fp);
+        size_t Read = fread(inputBuffer, sizeof(char), LENGTH, fp);
+        
         sentResult = sendto(sock, inputBuffer, Read, 0, serverAddr, serverlen);
         if(sentResult < 0)
             error("sendTo() failed");
