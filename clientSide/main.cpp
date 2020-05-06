@@ -18,11 +18,13 @@
 #define PORTNUM 12354
 #define BUFMAX 1024
 #define PLIK    "/Users/XCodeProjects/Final\ Project/serverSide/clientSide/send.txt"
+#define START    "/Users/XCodeProjects/Final\ Project/serverSide/clientSide/adk.txt"
 #define LENGTH 512
 void error(const char*);
 void macLinuxEchoLoop(int, struct sockaddr*, socklen_t);
 void macLinuxEchoClient();
-
+char connected = '1';
+bool didStart = false;
 
 int main(int argc, char** argv)
 {
@@ -63,17 +65,39 @@ void macLinuxEchoClient()
 
 void macLinuxEchoLoop(int sock, struct sockaddr* serverAddr, socklen_t serverlen)
 {
-    int bytesRead, sd;
+    
+    int bytesRead;
     int sentResult;
     char inputBuffer[BUFMAX] = {0};
     char recvBuffer[BUFMAX] = {0};
     
-    
+    if (didStart == false){
+        FILE *fa = fopen(START, "r");
+        size_t Read1 = fread(inputBuffer, sizeof(char), LENGTH, fa);
+        sentResult = sendto(sock, inputBuffer, Read1, 0, serverAddr, serverlen);
+        fclose(fa);
+        bytesRead = recvfrom(sock, recvBuffer, BUFMAX, 0, NULL, NULL);
+        printf("%s", recvBuffer);
+        didStart = true;
+    }
     
     for(;;)
     {
-        //printf("Type message: ");
-        //fgets(inputBuffer, BUFMAX, stdin);
+        
+        char firstName[32];
+        char lastName[32];
+        FILE *file;
+        file = fopen(PLIK, "wt");
+        printf("\nFrom: ");
+        scanf("%s", firstName);
+        if (strcmp (firstName, "exit") == 0){
+            fclose(file);
+            exit(0);
+        }
+        printf("To:  "); scanf("%s", lastName);
+        printf("\n");
+        fprintf(file, "%s\n%s\n", firstName, lastName);
+        fclose(file);
         FILE *fp = fopen(PLIK, "r");
         size_t Read = fread(inputBuffer, sizeof(char), LENGTH, fp);
         
@@ -86,15 +110,13 @@ void macLinuxEchoLoop(int sock, struct sockaddr* serverAddr, socklen_t serverlen
         if(bytesRead < 0)
             error("recvfrom() failed");
 
-        recvBuffer[bytesRead] = 0; /* NULL terminates the char array */
-        printf("Following is Breadth First Traversal (starting from vertex):\n%s\n", recvBuffer);
+        recvBuffer[bytesRead] = 0;
+        printf(recvBuffer, "\n");
         fclose(fp);
-        exit(0);
+        
+        //exit(0);
 
     }
     
 }
 
-    //return 1;
-    
-//}

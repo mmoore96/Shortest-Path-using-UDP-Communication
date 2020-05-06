@@ -23,6 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A536E61D24628E31008D49C4 /* adk.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = adk.txt; sourceTree = "<group>"; };
 		A565295C242CE14100D65816 /* clientSide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = clientSide; sourceTree = BUILT_PRODUCTS_DIR; };
 		A565295F242CE14100D65816 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A5C2F663242D02F1008E712C /* send.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = send.txt; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 			children = (
 				A565295F242CE14100D65816 /* main.cpp */,
 				A5C2F663242D02F1008E712C /* send.txt */,
+				A536E61D24628E31008D49C4 /* adk.txt */,
 			);
 			path = clientSide;
 			sourceTree = "<group>";

@@ -33,17 +33,22 @@
 
 void macLinuxEchoLoop(int, struct sockaddr*, socklen_t);
 void macLinuxEchoServer();
+void sendLinuxEchoClient();
 void multi(int);
 void driver(int);
+bool sent = false;
+void error(const char*);
+void sendLinuxEchoLoop(int, struct sockaddr*, socklen_t);
+struct sockaddr_in serverAddr;
+struct sockaddr_in clientAddr;
+int start();
+
 
 
 
 void macLinuxEchoServer()
 {
     int socketFileDescriptor;
-    struct sockaddr_in serverAddr;
-    struct sockaddr_in clientAddr;
-
     socketFileDescriptor = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
     bzero(&serverAddr, sizeof(serverAddr));
@@ -53,68 +58,74 @@ void macLinuxEchoServer()
     serverAddr.sin_port = htons(PORTNUM);
 
     bind(socketFileDescriptor, (struct sockaddr*)& serverAddr, sizeof(serverAddr));
-
+    
     macLinuxEchoLoop(socketFileDescriptor, (struct sockaddr*)& clientAddr, sizeof(clientAddr));
+   
 }
+    
 
 void macLinuxEchoLoop(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
 {
     int bytesRead;
+    char check[32] = "1";
     socklen_t len;
     char inputBuffer[BUFMAX] = {0};
     char msg[BUFMAX] = {0};
-    char buf[512],sbuf[LENGTH];
+    char recvBuffer[BUFMAX] = {0};
     FILE *fp = fopen(PLIKSERV, "w");
-    char* mfcc;
-    int multiVar = 0;
-    //(char*)malloc(1500);
+    
+
     printf("Waiting for datagrams on 127.0.0.1:%d\n", PORTNUM);
     for(;;)
     {
+        int i;
         len = clilen;
         bzero(&msg, sizeof(msg));
         
         bytesRead = recvfrom(sockFd, msg, BUFMAX, 0, cliaddr, &len);
-        fwrite(msg, 1, bytesRead, fp);
-        int i;
-        sscanf(msg, "%d", &i);
-        fflush(fp);
-        printf("Got message: %s\n", msg);
-        //multi(i);
-        FILE *fl = fopen(shortestPathFile, "r");
-        int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
-        
-        //sprintf( msg, "%d", string(multi(i)) );
-        //printf("Sending: %s", msg);
-        sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
-        fclose(fp);
-        fclose(fl);
-        return;
-        //free(mfcc);
+        //scanf("%d", msg);
+        if (*msg == '1'){
+            FILE *fl = fopen("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/graph.txt", "r");
+            int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
+            
+            printf("Sending: ");
+            sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
+            fclose(fl);
+            sent = true;
+        }else{
+            fwrite(msg, 1, bytesRead, fp);
+            sscanf(msg, "%d", &i);
+            fflush(fp);
+            printf("Got message: %s\n", msg);
+            start();
+            fclose(fp);
+            FILE *fl = fopen(shortestPathFile, "r");
+            int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
+            
+            
+            fclose(fl);
+            
+            sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
+            macLinuxEchoLoop(sockFd, (struct sockaddr*)& clientAddr, sizeof(clientAddr));
+            
+        }
     }
     
 }
 
-void sendPath(int sockFd, struct sockaddr* cliaddr, socklen_t clilen)
-{
-    int bytesRead;
-    socklen_t len;
-    char inputBuffer[BUFMAX] = {0};
-    char msg[BUFMAX] = {0};
-    char buf[512],sbuf[LENGTH];
-    FILE *fp = fopen(PLIKSERV, "w");
-    char* mfcc;
-    int multiVar = 0;
-    len = clilen;
-    FILE *fl = fopen("/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toClient.txt", "r");
-    int Read = fread(inputBuffer, sizeof(char), LENGTH, fl);
-    
-    //sprintf( msg, "%d", string(multi(i)) );
-    //printf("Sending: %s", msg);
-    sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
-    fclose(fl);
-    sendto(sockFd, inputBuffer, Read, 0, cliaddr, len);
+
+void error(const char *msg) {
+    perror(msg);
+    exit(EXIT_FAILURE);
 }
+
+
+int main(int argc, char** argv)
+{
+    macLinuxEchoServer();
+    
+}
+
 using namespace std;
 class Node;
 class Edge {
@@ -350,9 +361,8 @@ void driver(ofstream& outFileStream, Graph* g, string startingLocation, string e
     outFileStream.close();
 }
 
-int main(int argc, char** argv)
+int start()
 {
-    macLinuxEchoServer();
     ifstream inFileStream;
     ofstream outFileStream;
     string startingLocation, endingLocation;
@@ -369,18 +379,12 @@ int main(int argc, char** argv)
         
         getline(inFileStream, startingLocation);
         getline(inFileStream, endingLocation);
-        cout<<startingLocation<<endl;
-        
-//        if (!inFileStream.eof()) {
-//            cout << "Error occurred while reading file toServer.txt." << endl;
-//            inFileStream.close();
-//            exit(1);
-//        }
         
         inFileStream.close();
         
         driver(outFileStream, g, startingLocation, endingLocation);
-        
+      
         return 0;
     }
    
+
