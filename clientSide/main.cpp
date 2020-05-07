@@ -1,6 +1,6 @@
 //
 //  clientSide.cpp
-//  rUDP
+//  shortest path using UDP communication
 //
 //  Created by Michael Moore on 3/26/20.
 //  Copyright © 2020 George Moore. All rights reserved.
@@ -84,19 +84,19 @@ void macLinuxEchoLoop(int sock, struct sockaddr* serverAddr, socklen_t serverlen
     for(;;)
     {
         
-        char firstName[32];
-        char lastName[32];
+        char start[32];
+        char end[32];
         FILE *file;
         file = fopen(PLIK, "wt");
         printf("\nFrom: ");
-        scanf("%s", firstName);
-        if (strcmp (firstName, "exit") == 0){
+        scanf("%s", start);
+        if (strcmp (start, "exit") == 0){
             fclose(file);
             exit(0);
         }
-        printf("To:  "); scanf("%s", lastName);
+        printf("To:  "); scanf("%s", end);
         printf("\n");
-        fprintf(file, "%s\n%s\n", firstName, lastName);
+        fprintf(file, "%s\n%s\n", start, end);
         fclose(file);
         FILE *fp = fopen(PLIK, "r");
         size_t Read = fread(inputBuffer, sizeof(char), LENGTH, fp);
