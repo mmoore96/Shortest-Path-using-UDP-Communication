@@ -1,6 +1,6 @@
 # Shortest-Path-using-UDP-Communication
 
-Program written in C++ that mimics how GPS routing systems works on a basic level. A client connects to the server. The user will enter a starting and ending location which is sent to the server. The server will send the shortest path back to the user. Dijkstra's Shortest Path First algorithm is used along with UDP for communication.
+Program written in C++ that mimics how GPS routing systems work on a basic level. A client connects to the server. The user will enter a starting and ending location which is sent to the server. The server will send the shortest path back to the user. Dijkstra's Shortest Path First algorithm is used along with UDP for communication.
 
 ## Installation
 
