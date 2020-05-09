@@ -43,8 +43,8 @@ serverSide:
 .
 .
 //change to the path of the files on your computer
-#define PLIKSERV    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toServer.txt"
-#define shortestPathFile    "/Users/XCodeProjects/Final\ Project/serverSide/serverSide/toClient.txt"
+#define PLIKSERV    "/User/Folder/serverSide/toServer.txt"
+#define shortestPathFile    "/User/Folder/serverSide/toClient.txt"
 ```
 4. Change all instances of file paths in the serverSide code. *Future commit will fix the need for this.
 
