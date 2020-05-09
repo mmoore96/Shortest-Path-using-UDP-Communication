@@ -1,13 +1,13 @@
 # Shortest-Path-using-UDP-Communication
 
-Program written in C++ that mimics how GPS routing systems works. A client connects to the server. The user will enter a starting and ending location which is send to the server. The server will send the shortest path back to the user. Dijkstra's Shortest Path First algorithm is used along with UDP for communication.
+Program written in C++ that mimics how GPS routing systems works. A client connects to the server. The user will enter a starting and ending location which is sent to the server. The server will send the shortest path back to the user. Dijkstra's Shortest Path First algorithm is used along with UDP for communication.
 
 ## Installation
 
 You can download the files directly from github or using git clone in terminal.
 
 ```bash
-git clone https://github.com/mmoore96/.git
+git clone https://github.com/mmoore96/Shortest-Path-using-UDP-Communication.git
 ```
 
 ## Setup
@@ -49,8 +49,9 @@ serverSide:
 4. Change all instances of file paths in the serverSide code. *Future commit will fix the need for this.
 
 ## Usage
-Run the serverSide first followed by the clientSide.
 
+Run the serverSide first followed by the clientSide.
+*I recommend using Xcode to run this project. See section titled "Important" for further details.
 
 
 ## Example Output
@@ -78,6 +79,12 @@ Path: HardwareStore->School->StripMall->Park
 ** All Distances From HardwareStore **
 (Bank:53), (Park:80), (StripMall:34), (Home:42), (Mall:37), (GasStation:2), (HardwareStore:0), (School:4), (BookStore:63), (GroceryStore:16)
 ```
+
+## Important
+This program was written as a final project for one of my undergraduate Computer Science classes.
+This is intended to run on MacOS using Xcode. It was compiled using LLVM and Clang. However, any C++ compiler will work.
+
+I plan on updating this code in the future so users do not have to change file paths manually in the code.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
