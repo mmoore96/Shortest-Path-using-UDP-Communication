@@ -46,7 +46,8 @@ serverSide:
 #define PLIKSERV    "/User/Folder/serverSide/toServer.txt"
 #define shortestPathFile    "/User/Folder/serverSide/toClient.txt"
 ```
-4. Change all instances of file paths in the serverSide code. 
+4. Change all instances of file paths in the serverSide code.
+
 *Future commits will fix the need for this.*
 
 ## Usage
